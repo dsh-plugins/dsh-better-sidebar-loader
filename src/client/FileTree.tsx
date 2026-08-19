@@ -20,7 +20,7 @@ import clsx from 'clsx'
 import {
   IconCodeOutline16, IconCopyOutline16, IconDownloadOutline16, IconFolderClose16, IconFolderOpen16,
   IconLinkOutline16, Menu, writeClipboard,
-} from '@dsh-external/dshloader/ui-primitives'
+} from '@dsh-plugin/dsh-loader/ui-primitives'
 import { api, downloadUrl, type FsEntry } from './api.ts'
 import { relativeTo } from './paths.ts'
 import { t } from './locales.ts'

@@ -20,7 +20,7 @@
  * in SideCardSection); the modal itself mounts only while open.
  */
 import { useState } from 'react'
-import { Modal, writeClipboard } from '@dsh-external/dshloader/ui-primitives'
+import { Modal, writeClipboard } from '@dsh-plugin/dsh-loader/ui-primitives'
 import type { BetterSidebarService } from './service.ts'
 import { PLUGIN_TOPIC_URL, type PluginEntry } from './plugins-shared.ts'
 import { builtinTabPlugins } from './plugins-tabs.ts'

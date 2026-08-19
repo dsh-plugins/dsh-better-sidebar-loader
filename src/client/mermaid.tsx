@@ -28,7 +28,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type MouseEv
 import { createPortal } from 'react-dom'
 import { createRoot, type Root } from 'react-dom/client'
 import mermaid from 'mermaid'
-import { IconCopyOutline16, MarkdownText, writeClipboard } from '@dsh-external/dshloader/ui-primitives'
+import { IconCopyOutline16, MarkdownText, writeClipboard } from '@dsh-plugin/dsh-loader/ui-primitives'
 import { isDarkScheme, subscribeColorScheme } from './theme.ts'
 import { t } from './locales.ts'
 import { sanitizeSvg } from './mermaid-sanitize.ts'

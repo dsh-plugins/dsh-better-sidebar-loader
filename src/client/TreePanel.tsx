@@ -9,7 +9,7 @@
  */
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
-import { IconRefreshOutline16 } from '@dsh-external/dshloader/ui-primitives'
+import { IconRefreshOutline16 } from '@dsh-plugin/dsh-loader/ui-primitives'
 import { api } from './api.ts'
 import { FileTree } from './FileTree.tsx'
 import { t } from './locales.ts'

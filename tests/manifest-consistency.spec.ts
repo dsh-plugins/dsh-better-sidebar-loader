@@ -54,6 +54,9 @@ const CLIENT_REQUIRE_ALLOWED = new Set([
   '@deepseek-ai/dsh-client-ui-primitives',
   '@deepseek-ai/dsh-client-schema-form',
   '@deepseek-ai/dsh-client-runtime/client',
+  // dsh-loader stable subpaths stay as externals: the loader's __ModuleLoader__
+  // wrapper maps them to the real @deepseek-ai/* packages at runtime.
+  '@dsh-plugin/dsh-loader/ui-primitives',
 ])
 
 /** The registered `__ModuleLoader__.load({ id })` value of a built client bundle. */

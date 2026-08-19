@@ -5,7 +5,7 @@
  * (`descriptor.icon`), not in a type-keyed switch — the icon mapping was
  * registry-ized with the tab types.
  */
-import type { IconProps } from '@dsh-external/dshloader/ui-primitives'
+import type { IconProps } from '@dsh-plugin/dsh-loader/ui-primitives'
 
 /**
  * Right-panel toggle glyph (the "侧拉" button): a frame with a filled strip

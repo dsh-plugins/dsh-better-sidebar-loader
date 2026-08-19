@@ -24,7 +24,7 @@ import { useSyncExternalStore } from 'react'
 import clsx from 'clsx'
 import {
   IconRefreshOutline14, StateDot,
-} from '@dsh-external/dshloader/ui-primitives'
+} from '@dsh-plugin/dsh-loader/ui-primitives'
 import type {
   Context,
   SidebarSessionList,

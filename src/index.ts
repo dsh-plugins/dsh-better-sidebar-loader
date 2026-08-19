@@ -65,7 +65,7 @@ export type {
 } from './client/service.ts'
 
 /** Plugin identity for cordis.yml rows. */
-export const name = 'dsh-better-sidebar'
+export const name = '@dsh-plugin/dsh-better-sidebar'
 
 /** Services required before mounting: the webserver routes, the session store, the web runtime's trusted hosts, and the tool registry. */
 export const inject = ['dshLoader']

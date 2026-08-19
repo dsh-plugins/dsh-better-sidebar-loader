@@ -5,11 +5,12 @@
  * one per install channel:
  *
  * - `lib/client.js` serves the official profile channel, registering with
- *   the package-name id `dsh-better-sidebar` (the client-modules compose
- *   keys on the package name; keep it in sync with package.json `name`),
+ *   the package-name id `@dsh-plugin/dsh-better-sidebar-loader` (the
+ *   client-modules compose keys on the package name; keep it in sync with
+ *   package.json `name`),
  * - `lib/client-registry.js` serves the plugin-registry channel
  *   (dsh.plugin.json), registering with the manifest id
- *   `dsh-external/dsh-better-sidebar` (the registry browser-side `arrive()`
+ *   `@dsh-plugin/dsh-better-sidebar` (the registry browser-side `arrive()`
  *   check requires bundle id === plugin id).
  *
  * Both bundles replicate the official DSH client-bundle preset
@@ -64,12 +65,12 @@ const CLIENT_EXTERNALS = [
   'cordis',
   // dshloader stable subpaths: plugins never import @deepseek-ai/dsh-client-*
   // directly; the loader maps these to the real packages at runtime.
-  '@dsh-external/dshloader/ui-slots',
-  '@dsh-external/dshloader/ui-settings',
-  '@dsh-external/dshloader/web-react',
-  '@dsh-external/dshloader/ui-primitives',
-  '@dsh-external/dshloader/schema-form',
-  '@dsh-external/dshloader/runtime',
+  '@dsh-plugin/dsh-loader/ui-slots',
+  '@dsh-plugin/dsh-loader/ui-settings',
+  '@dsh-plugin/dsh-loader/web-react',
+  '@dsh-plugin/dsh-loader/ui-primitives',
+  '@dsh-plugin/dsh-loader/schema-form',
+  '@dsh-plugin/dsh-loader/runtime',
 ]
 
 /**
@@ -113,9 +114,9 @@ function browserSourcePath(source: string, sourcemapPath: string): string {
 /**
  * One client bundle build for a plugin id. The same src/client/index.tsx is
  * compiled twice with only the registered id and the output file name
- * differing: the official channel uses the package name (`dsh-better-sidebar`)
- * and the registry channel uses the manifest id
- * (`dsh-external/dsh-better-sidebar`).
+ * differing: the official channel uses the package name
+ * (`@dsh-plugin/dsh-better-sidebar-loader`) and the registry channel uses the
+ * manifest id (`@dsh-plugin/dsh-better-sidebar`).
  * @param pluginId - the `__ModuleLoader__.load({ id })` value and the
  *   data-plugin style-tag prefix of this bundle.
  * @param entryFile - the output file name under lib/.
@@ -334,9 +335,9 @@ export default [
     clean: false,
   },
   // Official profile channel: bundle id = package name (package.json `name`).
-  clientBundle('dsh-better-sidebar-loader', 'client.js'),
+  clientBundle('@dsh-plugin/dsh-better-sidebar-loader', 'client.js'),
   // Plugin-registry channel: bundle id = manifest id (dsh.plugin.json `id`).
-  clientBundle('dsh-external/dsh-better-sidebar', 'client-registry.js'),
+  clientBundle('@dsh-plugin/dsh-better-sidebar', 'client-registry.js'),
   // Lazy chunks: shared by both channels, fetched on first use through the
   // plugin's /sidebar/bundle route (see src/client/chunk-loader.ts).
   ...CHUNKS.map(chunkBundle),

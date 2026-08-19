@@ -543,7 +543,7 @@ declare module '@deepseek-ai/cordis' {
 
 export type { Context }
 /**
- * The dshloader client API mounted on window (see @dsh-external/dshloader
+ * The dshloader client API mounted on window (see @dsh-plugin/dsh-loader
  * client bundle). Only `services.get` is consumed by this plugin's client
  * half (remote / conversation reads); the rest is dshloader's own surface.
  */

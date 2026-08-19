@@ -28,7 +28,7 @@
 import { createElement, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useSyncExternalStore } from 'react'
 import clsx from 'clsx'
-import { IconCloseFill14, Tooltip } from '@dsh-external/dshloader/ui-primitives'
+import { IconCloseFill14, Tooltip } from '@dsh-plugin/dsh-loader/ui-primitives'
 import type { Context, SidebarSessionList } from '../context-types.ts'
 import { appendToDraft } from './conversation-draft.ts'
 import {

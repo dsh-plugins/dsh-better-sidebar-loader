@@ -12,7 +12,7 @@ import { useCallback, useEffect, useState, type MouseEvent, type ReactNode } fro
 import {
   Button, IconBranchOutline16, IconCodeOutline16, IconCopyOutline16, IconRefreshOutline16,
   IconTrashOutline16, Input, Menu, Modal, writeClipboard,
-} from '@dsh-external/dshloader/ui-primitives'
+} from '@dsh-plugin/dsh-loader/ui-primitives'
 import type { GitLogEntry, GitStatusEntry, GitStatusResult, SessionScope } from './api.ts'
 import { api } from './api.ts'
 import { relativeTo } from './paths.ts'

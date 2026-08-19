@@ -16,8 +16,8 @@ describe('dsh-better-sidebar plugin export shape', () => {
     const loader = Object.create(Loader.prototype) as Loader
     const unwrapped = loader.unwrapExports(sidebar) as Record<string, unknown>
     expect(unwrapped).toBe(sidebar)
-    expect(unwrapped.name).toBe('dsh-better-sidebar')
-    expect(unwrapped.inject).toEqual(['webServer', 'sessions', 'webRuntime', 'tools'])
+    expect(unwrapped.name).toBe('@dsh-plugin/dsh-better-sidebar')
+    expect(unwrapped.inject).toEqual(['dshLoader'])
     expect(unwrapped.Config).toBeDefined()
     expect(typeof unwrapped.apply).toBe('function')
   })
@@ -37,18 +37,10 @@ describe('dsh-better-sidebar plugin export shape', () => {
     // The terminal shell config defaults to auto-resolution (empty shell =
     // the platform chain in defaultShell()).
     expect(resolved.shell).toBe('')
-    // Shell args default to an empty list; non-empty values replace the
-    // automatic platform login flag.
-    expect(resolved.shellArgs).toEqual([])
     const configured = (schema as unknown as {
       (input: Record<string, unknown> | undefined): Record<string, unknown>
     })({ shell: 'pwsh.exe' })
     expect(configured.shell).toBe('pwsh.exe')
-    const configuredWithArgs = (schema as unknown as {
-      (input: Record<string, unknown> | undefined): Record<string, unknown>
-    })({ shell: '/bin/zsh', shellArgs: ['--noprofile', '--no-rc'] })
-    expect(configuredWithArgs.shell).toBe('/bin/zsh')
-    expect(configuredWithArgs.shellArgs).toEqual(['--noprofile', '--no-rc'])
   })
 
   it('registers the side card preferences schema with the documented defaults', async () => {

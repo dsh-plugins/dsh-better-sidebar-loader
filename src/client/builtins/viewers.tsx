@@ -22,7 +22,7 @@
  * and `icon` — so the Side card settings page can render the enable/disable
  * inventory without hardcoding (eating our own dogfood).
  */
-import { IconCodeOutline16, IconDownloadOutline16 } from '@dsh-external/dshloader/ui-primitives'
+import { IconCodeOutline16, IconDownloadOutline16 } from '@dsh-plugin/dsh-loader/ui-primitives'
 import { lazyChunkComponent } from '../lazy-chunk.tsx'
 import { PdfView } from '../PdfView.tsx'
 import { BinaryDownload } from '../binary-download.tsx'

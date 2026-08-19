@@ -22,7 +22,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Terminal, type ITheme } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
-import { writeClipboard } from '@dsh-external/dshloader/ui-primitives'
+import { writeClipboard } from '@dsh-plugin/dsh-loader/ui-primitives'
 import '@xterm/xterm/css/xterm.css'
 import { t } from './locales.ts'
 import { openWhenSized } from './open-when-sized.ts'

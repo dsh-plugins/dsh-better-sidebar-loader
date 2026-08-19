@@ -1,4 +1,4 @@
-# dsh-better-sidebar-loader
+# @dsh-plugin/dsh-better-sidebar-loader
 
 Transcription of **dsh-better-sidebar** (VSCode-style right sidebar: explorer /
 editor / terminal / git / browser) whose **host half** programs ONLY against
@@ -26,14 +26,14 @@ agents / invariants); the loader itself resolves the real dsh service name.
 ## Client half
 
 The client bundle registers under the package name
-`dsh-better-sidebar-loader` and mounts through `dsh.client.inject` (the
+`@dsh-plugin/dsh-better-sidebar-loader` and mounts through `dsh.client.inject` (the
 platform contract). Every `@deepseek-ai/dsh-client-*` import is rewritten
-to dshloader's stable subpaths — `@dsh-external/dshloader/ui-primitives`,
+to dshloader's stable subpaths — `@dsh-plugin/dsh-loader/ui-primitives`,
 `/ui-slots`, `/ui-settings`, `/schema-form`, `/runtime` — which the loader's
 client adapter maps to the real packages at runtime, so the plugin carries
 **zero `@deepseek-ai/*` dependencies or imports** (except type-only
 declarations erased at build). The build's `CLIENT_EXTERNALS` lists the
-loader subpaths; package.json keeps only `@dsh-external/dshloader` as its
+loader subpaths; package.json keeps only `@dsh-plugin/dsh-loader` as its
 dsh-family dependency. The two inject-free `ctx.get(...)` calls (remote /
 conversation) go through `window.__dshLoader__.services.get(...)`, and
 declared injected services (slots / sessions / connection / workspaces /

@@ -6,7 +6,7 @@
  * deliverables entry; when nothing was produced the selector returns null
  * and the original row renders unchanged.
  */
-import { IconCodeOutline16 } from '@dsh-external/dshloader/ui-primitives'
+import { IconCodeOutline16 } from '@dsh-plugin/dsh-loader/ui-primitives'
 import type { Context } from '../context-types.ts'
 import type { SidebarStore } from './state.ts'
 import { t } from './locales.ts'

@@ -16,4 +16,4 @@
 # avoid double-mounting (two Node halves, two sidebars).
 - insert:
     - id: better-sidebar-loader
-      name: 'dsh-better-sidebar-loader'
+      name: '@dsh-plugin/dsh-better-sidebar-loader'

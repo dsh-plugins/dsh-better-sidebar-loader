@@ -1,5 +1,5 @@
 {
-  "name": "dsh-better-sidebar-loader",
+  "name": "@dsh-plugin/dsh-better-sidebar-loader",
   "version": "0.13.0",
   "description": "dshloader-API transcription of dsh-better-sidebar: the VSCode-like right sidebar (explorer / editor / terminal / git / browser), whose host half reaches dsh services ONLY through ctx.dshLoader (services/web) and never imports @deepseek-ai/* at runtime. Client half reused unchanged (official client packages via dsh.client.inject).",
   "type": "module",
@@ -117,7 +117,7 @@
     "rxjs": "^7.8.2",
     "schemastery": "^3.18.0",
     "ws": "^8.18.0",
-    "@dsh-external/dshloader": "^1.0.0"
+    "@dsh-plugin/dsh-loader": "^1.0.0"
   },
   "devDependencies": {
     "@cordisjs/plugin-loader": "^1.0.0-rc.5",

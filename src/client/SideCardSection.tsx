@@ -47,12 +47,12 @@ import {
   Input,
   Menu,
   Modal,
-} from '@dsh-external/dshloader/ui-primitives'
+} from '@dsh-plugin/dsh-loader/ui-primitives'
 import clsx from 'clsx'
 // Type-only: pulls the settings shell's SlotMap merges ('settings.section')
 // through the loader's stable ui-settings subpath.
-import type {} from '@dsh-external/dshloader/ui-settings'
-import type { PropsRuntime } from '@dsh-external/dshloader/ui-slots'
+import type {} from '@dsh-plugin/dsh-loader/ui-settings'
+import type { PropsRuntime } from '@dsh-plugin/dsh-loader/ui-slots'
 import {
   clampWidthPercent,
   TITLE_BAR_STRIP_MAX,

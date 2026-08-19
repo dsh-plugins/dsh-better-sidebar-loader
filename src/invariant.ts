@@ -1,15 +1,15 @@
 /**
- * Package-owned invariant companion for `dsh-better-sidebar`.
- * @module dsh-better-sidebar/invariant
+ * Package-owned invariant companion for `@dsh-plugin/dsh-better-sidebar`.
+ * @module @dsh-plugin/dsh-better-sidebar/invariant
  */
 
 /* jscpd:ignore-start */
 import type { Context } from './context-types.ts'
 
-const PACKAGE_NAME = 'dsh-better-sidebar'
+const PACKAGE_NAME = '@dsh-plugin/dsh-better-sidebar'
 
 /** Cordis companion plugin name. */
-export const name = 'dsh-better-sidebar-invariant'
+export const name = '@dsh-plugin/dsh-better-sidebar-invariant'
 /** Service required before the companion can reserve package ownership. */
 export const inject = ['dshLoader']
 

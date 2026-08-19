@@ -24,7 +24,7 @@ import {
   IconRefreshOutline14,
   IconRightUpOutline16,
   IconWarningOutline16,
-} from '@dsh-external/dshloader/ui-primitives'
+} from '@dsh-plugin/dsh-loader/ui-primitives'
 import { api } from './api.ts'
 import { embeddabilityOf, normalizeBrowserUrl } from './browser.ts'
 import { patchTab } from './state.ts'

@@ -8,7 +8,7 @@
  * very content it shows.
  */
 import { useCallback, useEffect, useState } from 'react'
-import { IconRefreshOutline16 } from '@dsh-external/dshloader/ui-primitives'
+import { IconRefreshOutline16 } from '@dsh-plugin/dsh-loader/ui-primitives'
 import type { SessionScope } from './api.ts'
 import { api } from './api.ts'
 import type { SidebarDiffRef } from './state.ts'
