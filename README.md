@@ -1,4 +1,25 @@
+<div align="center">
+
+![Banner](./docs/banner.png)
+
 # @dsh-plugin/dsh-better-sidebar-loader
+
+**A VSCode-style right sidebar (explorer / editor / terminal / git / browser) ported onto dshloader's stable API — zero direct dsh service access and zero `@deepseek-ai/*` runtime imports on the host.**
+
+English | [简体中文](README.zh_CN.md)
+
+[![DSH Plugin](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4f7cff)](https://github.com/topics/dsh-plugin)
+<a href="https://github.com/dsh-plugins/dsh-better-sidebar-loader/actions/workflows/npm-publish.yml">
+  <img src="https://github.com/dsh-plugins/dsh-better-sidebar-loader/actions/workflows/npm-publish.yml/badge.svg" alt="Build Status">
+</a>
+<a href="https://www.npmjs.com/package/@dsh-plugin/dsh-better-sidebar-loader">
+  <img src="https://img.shields.io/npm/v/@dsh-plugin/dsh-better-sidebar-loader.svg?sanitize=true" alt="Version">
+</a>
+<a href="https://www.npmjs.com/package/@dsh-plugin/dsh-better-sidebar-loader">
+  <img src="https://img.shields.io/npm/l/@dsh-plugin/dsh-better-sidebar-loader.svg?sanitize=true" alt="License">
+</a>
+
+</div>
 
 Transcription of **dsh-better-sidebar** (VSCode-style right sidebar: explorer /
 editor / terminal / git / browser) whose **host half** programs ONLY against
