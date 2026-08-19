@@ -29,7 +29,7 @@
 - **🪟 Dual Workbench**: right sidebar + bottom panel; drag tabs to split / merge panes (cross-panel), mobile auto-merges into a full-width drawer
 - **🔁 Session Isolation**: layout / tabs / panels persisted per session, stale state auto-purged
 - **⚙️ Declarative Settings**: per-item toggles in the "Side Cards" settings section, secondary settings via the gear dialog
-- **⚡ On-demand Loading**: only ~325KB core at startup; heavy deps (terminal / editor / mermaid diagrams) load on demand ([design](docs/plans/2026-08-12-lazy-chunks-design.md))
+- **⚡ On-demand Loading**: only ~325KB core at startup; heavy deps (terminal / editor / mermaid diagrams) load on demand
 - **🌏 i18n**: UI text follows DSH's language (zh / en) with live switching
 
 > 🔌 **Core principle**: service-first — the 7 built-in tabs + 6 viewers register through the same `ctx.betterSidebar` API as third-party plugins, with fully equal capabilities; anything the ecosystem can provide better is delegated to ecosystem plugins. See the "🔌 Service" section below and the [external plugin guide](./docs/external-plugin-guide.md).
@@ -173,23 +173,6 @@ Update: `git pull && pnpm install && pnpm build` → just hard-refresh the brows
 
 </details>
 
-<details>
-<summary><b>Install via plugin-registry (optional — use either this or the main flow)</b></summary>
-
-Prerequisite: DSH with [plugin-registry](https://github.com/dsh-external/plugin-registry) integrated (`dsh registry` available). **Enabling both channels double-mounts** (the Node half loads twice, the page gets two sidebars).
-
-```sh
-git clone https://github.com/omdsh-dev/DSH-better-sidebar.git && cd DSH-better-sidebar
-pnpm install && pnpm build
-node scripts/package-registry.mjs   # assemble the registry/ staging (manifest + artifacts + README, not committed)
-dsh registry install ./registry     # install (disabled by default)
-dsh registry enable dsh-external/dsh-better-sidebar
-```
-
-Update: `git pull && pnpm install && pnpm build` → `node scripts/package-registry.mjs` → `dsh registry uninstall/install/enable`. Remove the other channel's mount before switching.
-
-</details>
-
 ## ⌨️ Keyboard Shortcuts
 
 | Action | Keys |
@@ -218,7 +201,6 @@ export function apply(ctx: Context) {
 v0.12.1+ base capabilities (complete type exports, capability detection, state subscription, tab badge, lifecycle callbacks, targeted open, plugin-owned settings, etc.) — see the integration docs below.
 
 Full integration docs:
-- **[`AGENTS.md`](./AGENTS.md)** — the in-repo integration doc (full fields, matching algorithm, HMR pitfalls, declarative settings, version detection);
 - **[`docs/external-plugin-guide.md`](./docs/external-plugin-guide.md)** — the external-plugin guide (with a complete minimal example).
 
 ### ➕ Add Plugins (recommended plugin catalog)
