@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+node_modules/
+
+# Build output
+lib/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
