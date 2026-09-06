@@ -29,7 +29,7 @@ function clientGraphFiles(): string[] {
     }
   }
   walk(join(ROOT, 'src', 'client'))
-  for (const extra of ['src/context-types.ts', 'src/element-selection-host.ts', 'src/html-route.ts', 'src/prefs-shared.ts']) {
+  for (const extra of ['src/browser-proxy.ts', 'src/context-types.ts', 'src/element-picker.ts', 'src/html-route.ts', 'src/prefs-shared.ts']) {
     files.push(join(ROOT, extra))
   }
   return files

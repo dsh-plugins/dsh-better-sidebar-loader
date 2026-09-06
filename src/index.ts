@@ -31,7 +31,10 @@ import {
 import { isWithin, parentOf, requireAbsolute, listDirectory, rootLabel } from './fs-tree.ts'
 import { searchFiles } from './fs-search.ts'
 import { decodeHtmlUrl } from './html-route.ts'
-import { withPickerBridge } from './element-selection-host.ts'
+import { decodeProxyRequest, proxyErrorDocument, proxyRequestNoScript, proxyRequestToken, PROXY_ROUTE_PREFIX, TOKEN_ROUTE_PATH } from './browser-proxy.ts'
+import { fetchProxiedPage } from './browser-proxy-fetch.ts'
+import { isPickerProxyToken, pickerProxyToken } from './browser-proxy-token.ts'
+import { injectPickerBridge } from './element-picker-bridge.ts'
 import { extractFrameAncestors } from './browser-probe.ts'
 import { isTrustedApiRequest, isLoopbackHostname } from './trust-fence.ts'
 import { registerBundleRoute } from './bundle-route.ts'
@@ -716,15 +719,13 @@ export function apply(ctx: Context, config?: SidebarConfig): void {
         }
         const type = mediaTypeForPath(absolute)
         const body = await readFile(absolute)
-        // Element-picker bridge ("选择网页元素加入聊天"): when the optional
-        // element-selection plugin is mounted, every HTML DOCUMENT served here
-        // is piped through its injector (assets stay byte-identical) and the
-        // preview becomes pickable; without that plugin the document is served
-        // untouched. The preview frame is opaque-origin — the sandbox attribute
-        // plus the CSP sandbox directive below — so the GUI can never reach into
-        // its DOM: the picker lives INSIDE the document and answers over
-        // postMessage (see src/element-selection-host.ts).
-        const payload = type === 'text/html' ? withPickerBridge(body.toString('utf8')) : body
+        // Element-picker bridge ("选择网页元素加入聊天"): every HTML DOCUMENT
+        // served here carries the injected picker (assets stay byte-identical),
+        // so the preview is pickable. The preview frame is opaque-origin — the
+        // sandbox attribute plus the CSP sandbox directive below — so the GUI can
+        // never reach into its DOM: the picker lives INSIDE the document and
+        // answers over postMessage (see src/element-picker-bridge.ts).
+        const payload = type === 'text/html' ? injectPickerBridge(body.toString('utf8')) : body
         res.writeHead(200, {
           'content-type': type,
           'cache-control': 'no-cache',
@@ -741,13 +742,77 @@ export function apply(ctx: Context, config?: SidebarConfig): void {
       }
   }), 'dsh-better-sidebar: /sidebar/html preview route')
 
-  // The element-picker proxy route lives in its own plugin
-  // (@dsh-plugin/dsh-bettersidebar-element-selection): a remote page's bytes
-  // must come from the host for the picker to reach it, and that whole
-  // apparatus — the SSRF fence, the charset handling, the capability token —
-  // belongs with the picker, not with this sidebar. This sidebar only pipes its
-  // OWN html previews through the provider's injector (see withPickerBridge
-  // above) and renders the crosshair when the client half is published.
+  // ── Element-picker proxy ────────────────────────────────────────────────
+  // A remote page in the browser tab is cross-origin, so no GUI script can
+  // reach into it. To make it pickable the host fetches ONE document and
+  // re-serves it with the bridge injected (see src/browser-proxy.ts for the SSRF
+  // fence, the charset handling and the rest of the posture).
+  //
+  // The proxied page loads into a SANDBOXED frame, so the browser labels that
+  // navigation `Origin: null` / `Sec-Fetch-Site: cross-site` — markers the fence
+  // must keep refusing. The capability token below re-authorizes exactly that
+  // one navigation: it is minted only by this fenced same-origin route, so a
+  // cross-site page can never obtain it.
+  ctx.effect(() => ctx.dshLoader.web.register(TOKEN_ROUTE_PATH, (req, res) => {
+    if (!fence(req)) {
+      res.writeHead(403, { 'content-type': 'application/json; charset=utf-8' })
+      res.end(JSON.stringify({ error: { code: 'forbidden', message: 'cross-site request' } }))
+      return
+    }
+    res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' })
+    res.end(JSON.stringify({ token: pickerProxyToken(), proxyRoutePrefix: PROXY_ROUTE_PREFIX }))
+  }), 'dsh-better-sidebar: /sidebar/proxy-token route')
+
+  ctx.effect(() => ctx.dshLoader.web.register(PROXY_ROUTE_PREFIX, async (req, res) => {
+    const serve = (status: number, body: string): void => {
+      res.writeHead(status, {
+        'content-type': 'text/html; charset=utf-8',
+        'cache-control': 'no-store',
+        'x-content-type-options': 'nosniff',
+        'referrer-policy': 'no-referrer',
+        // Opaque origin even for a top-level load of this route: the proxied
+        // page can render and be picked, never read the GUI's storage or reach
+        // its fenced api.
+        'content-security-policy': "sandbox allow-scripts allow-popups allow-downloads allow-modals; object-src 'none'",
+      })
+      res.end(body)
+    }
+    // Two ways in, and a request with neither is refused: the same-origin fence,
+    // or the capability token for the sandboxed frame navigation the fence
+    // cannot recognize (see src/browser-proxy-token.ts).
+    if (!fence(req) && !isPickerProxyToken(proxyRequestToken(req.url ?? '/'))) {
+      serve(403, proxyErrorDocument('该代理请求未通过安全校验（缺少或错误的令牌）'))
+      return
+    }
+    if (req.method !== undefined && req.method !== 'GET') {
+      serve(405, proxyErrorDocument('该路由只接受 GET 请求'))
+      return
+    }
+    const decision = decodeProxyRequest(req.url ?? '/')
+    if (!decision.ok) {
+      serve(decision.status, proxyErrorDocument(decision.message))
+      return
+    }
+    // The framing browser's own identity rides along: many sites answer an
+    // unknown agent with a JS-only "upgrade your browser" stub, which renders as
+    // a blank frame once proxied.
+    const headerOf = (headerName: string): string | undefined => {
+      const value = req.headers[headerName]
+      return typeof value === 'string' && value !== '' ? value : undefined
+    }
+    const userAgent = headerOf('user-agent')
+    const acceptLanguage = headerOf('accept-language')
+    const page = await fetchProxiedPage(decision.target, {
+      fetch: globalThis.fetch,
+      limit: resolved.mediaLimit,
+      timeoutMs: 15000,
+      ...(userAgent !== undefined ? { userAgent } : {}),
+      ...(acceptLanguage !== undefined ? { acceptLanguage } : {}),
+      noScript: proxyRequestNoScript(req.url ?? '/'),
+    })
+    serve(page.status, page.body)
+  }), 'dsh-better-sidebar: /sidebar/proxy route')
+
 
   // ── Terminal WebSocket ──────────────────────────────────────────────────
   // One upgrade endpoint serves both UI-tab terminals (?tab=...) and
